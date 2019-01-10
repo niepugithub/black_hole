@@ -1,0 +1,14 @@
+诡异问题之一
+
+啥错误都没报，启动项目后报错：Error:(7, 37) java: 程序包org.apache.ibatis.annotations不存在
+重启idea后发现：
+mybatis的依赖导入了，@Mapper注解等一系列mybatis注解无效，报红
+
+原来是mybatis-spring-boot-starter依赖没有导入，为啥？发现springboot-1.5.9版本用不了
+mybatis-spring-boot-starter 1.3.2，改成1.3.1 OK
+
+诡异问题之二：
+mapper文件找不到，
+maven中配置resource之后OK
+
+
