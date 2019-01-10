@@ -1,10 +1,26 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.User;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * @description: 用户的crud控制器
  * @author:niepu
  * @version:1.0
  * @date:2019/1/10 22:15
  **/
+@RestController
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("/user/{id}")
+    public User getUserById(@PathVariable("id") long id){
+        return userService.selectByPrimaryKey(id);
+    }
 }
