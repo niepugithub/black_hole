@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @description: 用户的crud控制器
@@ -20,7 +20,17 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/user/{id}")
-    public User getUserById(@PathVariable("id") long id){
+    public User getUserById(@PathVariable("id") long id) {
         return userService.selectByPrimaryKey(id);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public int insert(@RequestBody User user) {
+        return userService.insert(user);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public List<User> getUsers(User user) {
+        return userService.queryUsers(user);
     }
 }
