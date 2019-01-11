@@ -1,5 +1,7 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class User {
@@ -10,7 +12,7 @@ public class User {
     private String phone;
 
     private String address;
-
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8", locale = "zh")
     private Date birth;
 
     public Long getId() {
