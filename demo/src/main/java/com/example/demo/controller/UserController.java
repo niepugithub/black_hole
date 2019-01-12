@@ -35,8 +35,14 @@ public class UserController {
         return userService.queryUsers(user);
     }
 
-    @RequestMapping(value = "/user/{id}",method = RequestMethod.DELETE)
-    public int deleteByPrimaryKey(@PathVariable("id") long id){
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public int deleteByPrimaryKey(@PathVariable("id") long id) {
         return userService.deleteByPrimaryKey(id);
     }
+
+    @RequestMapping(value = "/user",method = RequestMethod.PUT)
+    public int updateByPrimaryKeySelective(User user){
+        return userService.updateByPrimaryKeySelective(user);
+    }
 }
+
