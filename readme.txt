@@ -24,3 +24,9 @@
 
 我以前一直以为，事务处理数据，比如更新时候，判断的依据是当前事务读取到的数据，这是错误的，其实是持久化到
 数据库中的数据
+
+（7）整合thymeleaf
+报错：
+template might not exist or might not be accessible by any of the configured Template Resolvers
+找了半天，原来是资源文件路径默认是src/main/resources，由于逆向工程改成了src/main/java；
+虽然后面又添加了src/main/resource，但是有include标签没有包含html吧，估计；导致找不到
