@@ -39,43 +39,13 @@
         </tr>
         </tbody>
     </table>
-    <nav style="width:80%; margin:0 auto">
-        totalPages:<input th:value="${totalPages}"/>
-        pageSize:<input th:value="${pageSize}"/>
-        <ul class="pagination">
-            <li>
-                <a th:if="${not isFirstPage}"
-                   th:href="@{${'/user/list'}(pageIndex=${pageIndex-1},pageSize=${pageSize})}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-                <a th:if="${isFirstPage}" href="javascript:void(0);" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
 
-            <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
-                <a th:if="${pageIndex eq pageNo}" href="javascript:void(0);">
-                    <span th:text="${pageNo}"></span>
-                </a>
-
-                <a th:if="${not (pageIndex eq pageNo)}"
-                   th:href="@{${'/user/list'}(pageIndex=${pageNo},pageSize=${pageSize})}">
-                    <span th:text="${pageNo}"></span>
-                </a>
-            </li>
-
-            <li>
-                <a th:if="${not isLastPage}" th:href="@{${'/user/list'}(pageIndex=${pageIndex+1},pageSize=${pageSize})}"
-                   aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-                <a th:if="${isLastPage}" href="javascript:void(0);" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    <a class="allpage"><b th:text="'共 '+ ${totalPages}+ ' 页'"></b></a>
+    <a th:if="${pages.hasPreviousPage} == true" th:href="@{${'/user/list'}(pageIndex=${pages.prePage},pageSize=${pageSize})}">上一页</a>
+    <a th:href="@{${'/user/list'}(pageIndex=${i},pageSize=${pageSize})}" th:each="i :${#numbers.sequence(1,totalPages)}"
+       th:text="${i}" th:class="${pages.pageNum == i}? 'curPage' :'' "></a>
+    &nbsp;&nbsp;<a th:href="@{${'/user/list'}(pageIndex=${pages.nextPage},pageSize=${pageSize})}" th:if="${pages.hasNextPage} == true">下一页</a>
+    &nbsp;&nbsp;<a th:href="@{${'/user/list'}(pageIndex=${totalPages},pageSize=${pageSize})}">尾页</a>
 
     <div class="form-group">
         <div class="col-sm-2 control-label">
