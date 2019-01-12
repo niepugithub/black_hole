@@ -41,14 +41,7 @@ public class UserController {
         model.addAttribute("totalPages", pageInfo.getPages());
         model.addAttribute("pageIndex", pageIndex);
         model.addAttribute("pageSize", pageSize);
-//        boolean isFirstPage = false;
-//        boolean isLastPage = false;
-//        if (pageIndex == 1) {
-//            isFirstPage = true;
-//        }
-//        if (pageIndex == pageInfo.getPages()) {
-//            isLastPage = true;
-//        }
+        model.addAttribute("pages", pageInfo);
         model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         return "/user/user_list";
