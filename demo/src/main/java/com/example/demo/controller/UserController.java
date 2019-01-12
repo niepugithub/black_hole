@@ -2,11 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,9 +28,16 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/user/list")
-    public String getUsers(Model model) {
+    public String getUsers(Model model, @RequestParam(value = "pageIndex",defaultValue = "0") int pageIndex) {
+        if (pageIndex == 0) {
+            pageIndex = 1;
+        }
+        PageHelper.startPage(pageIndex, 5);
         List<User> userList = userService.queryUsers(null);
         model.addAttribute("userList", userList);
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        model.addAttribute("page", pageInfo.getTotal());
+        model.addAttribute("pageIndex", pageIndex);
         return "/user/user_list";
     }
 
@@ -49,16 +59,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/edit/{userId}")
-    public String edit(@PathVariable("userId") long userId,Model model) {
+    public String edit(@PathVariable("userId") long userId, Model model) {
         User user = userService.selectByPrimaryKey(userId);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "/user/user_edit";
     }
 
     @RequestMapping(value = "/user/edit")
     public String updateByPrimaryKeySelective(User user) {
         int i = userService.updateBySelective(user);
-        System.out.println("================="+i);
+        System.out.println("=================" + i);
         return "redirect:/user/list";
     }
 
