@@ -28,17 +28,29 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/user/list")
-    public String getUsers(Model model, @RequestParam(value = "pageIndex",defaultValue = "1") int pageIndex) {
+    public String getUsers(Model model, @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
+                           @RequestParam(value = "pageSize", defaultValue = "1") int pageSize) {
         if (pageIndex == 0) {
             pageIndex = 1;
         }
-        PageHelper.startPage(pageIndex, 5);
+        PageHelper.startPage(pageIndex, pageSize);
         List<User> userList = userService.queryUsers(null);
         model.addAttribute("userList", userList);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         model.addAttribute("totalRecords", pageInfo.getTotal());
         model.addAttribute("totalPages", pageInfo.getPages());
         model.addAttribute("pageIndex", pageIndex);
+        model.addAttribute("pageSize", pageSize);
+//        boolean isFirstPage = false;
+//        boolean isLastPage = false;
+//        if (pageIndex == 1) {
+//            isFirstPage = true;
+//        }
+//        if (pageIndex == pageInfo.getPages()) {
+//            isLastPage = true;
+//        }
+        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         return "/user/user_list";
     }
 
