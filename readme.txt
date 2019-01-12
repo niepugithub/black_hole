@@ -30,3 +30,8 @@
 template might not exist or might not be accessible by any of the configured Template Resolvers
 找了半天，原来是资源文件路径默认是src/main/resources，由于逆向工程改成了src/main/java；
 虽然后面又添加了src/main/resource，但是有include标签没有包含html吧，估计；导致找不到
+
+（8）date类型，前端如何弹出日历？
+输入框的type=date就好了；如果前端的type=date，后端的date就要用DateTimeFormat注解
+如果input框type=text，后端date变量使用@JsonFormat注解
+两者配对；不能瞎用
