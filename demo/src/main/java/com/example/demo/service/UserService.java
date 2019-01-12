@@ -23,9 +23,6 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-    @Autowired
-    private UserService userService;
-
     public User selectByPrimaryKey(long id) {
         return userMapper.selectByPrimaryKey(id);
     }
@@ -39,7 +36,7 @@ public class UserService {
     public List<User> queryUsers(User user) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
-        if(user!=null){
+        if (user != null) {
             // 暂时没找到好的方法，只能死拼凑查询条件
             if (StringUtils.isNotBlank(user.getAddress())) {
                 // 注意模糊查询的百分号问题
@@ -63,26 +60,32 @@ public class UserService {
     }
 
     @Transactional
-    public int deleteByPrimaryKey(long id){
+    public int deleteByPrimaryKey(long id) {
         return userMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(User user){
-        User u = userService.selectByPrimaryKey(user.getId());
+    public int updateByPrimaryKeySelective(User user) {
+        User u = selectByPrimaryKey(user.getId());
         if (u.getUsername().equals("postman")) {
             // 休息一分钟，先获取满足修改条件，然后让其他事务修改，让条件不满足
             // 看看这个事务是否还能否执行成功
             // 在这里真是见鬼了，陷入死循环了，不知道是个什么诡异的问题
+            // 原来是这里本来是调用userMapper的方法，竟然写成了递归，靠
             System.out.println("进入条件");
             try {
-                Thread.sleep(3000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("u.getUsername===="+u.getUsername());
-            return userService.updateByPrimaryKeySelective(user);
+            System.out.println("u.getUsername====" + u.getUsername());
+            return userMapper.updateByPrimaryKeySelective(user);
         }
         return -1;
+    }
+
+    @Transactional
+    public int updateBySelective(User user) {
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 }

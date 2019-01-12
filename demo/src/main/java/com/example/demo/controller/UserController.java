@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -35,6 +34,31 @@ public class UserController {
     @RequestMapping(value = "/user/del/{userId}")
     public String deleteByPrimaryKey(@PathVariable("userId") long userId) {
         userService.deleteByPrimaryKey(userId);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/toAdd")
+    public String toAdd() {
+        return "/user/user_add";
+    }
+
+    @RequestMapping(value = "/user/add")
+    public String add(User user) {
+        userService.insert(user);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/edit/{userId}")
+    public String edit(@PathVariable("userId") long userId,Model model) {
+        User user = userService.selectByPrimaryKey(userId);
+        model.addAttribute("user",user);
+        return "/user/user_edit";
+    }
+
+    @RequestMapping(value = "/user/edit")
+    public String updateByPrimaryKeySelective(User user) {
+        int i = userService.updateBySelective(user);
+        System.out.println("================="+i);
         return "redirect:/user/list";
     }
 
