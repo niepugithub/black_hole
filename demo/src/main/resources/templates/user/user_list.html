@@ -38,14 +38,74 @@
                 <a class="btn btn-danger" th:href="@{/user/edit/{userId}(userId=${user.id})}">修改</a></td>
         </tr>
         </tbody>
+
     </table>
 
-    <a class="allpage"><b th:text="'共 '+ ${totalPages}+ ' 页'"></b></a>
-    <a th:if="${pages.hasPreviousPage} == true" th:href="@{${'/user/list'}(pageIndex=${pages.prePage},pageSize=${pageSize})}">上一页</a>
-    <a th:href="@{${'/user/list'}(pageIndex=${i},pageSize=${pageSize})}" th:each="i :${#numbers.sequence(1,totalPages)}"
-       th:text="${i}" th:class="${pages.pageNum == i}? 'curPage' :'' "></a>
-    &nbsp;&nbsp;<a th:href="@{${'/user/list'}(pageIndex=${pages.nextPage},pageSize=${pageSize})}" th:if="${pages.hasNextPage} == true">下一页</a>
-    &nbsp;&nbsp;<a th:href="@{${'/user/list'}(pageIndex=${totalPages},pageSize=${pageSize})}">尾页</a>
+    <!-- 分页部分start -->
+    <div aria-label="Page navigation" style="width:80%; margin:0 auto">
+        <ul class="pagination">
+            <li>
+                <div>
+                    总条数：<span th:text="${pages.total}"></span>&nbsp;&nbsp;
+                    总页数：<span th:text="${pages.pages}"></span>&nbsp;&nbsp;
+                    当前页码：<span th:text="${pageIndex}"></span>
+                </div>
+            </li>
+            <li>
+                <a th:href="@{/user/list/(pageIndex=1,pageSize=${pageSize} )}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;首页</span>
+                </a>
+            </li>
+            <li>
+                <a th:if="${pages.hasPreviousPage}"
+                   th:href="@{/user/list/(pageIndex=${pageIndex-1},pageSize=${pageSize} )}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;上一页</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:if="${pages.hasNextPage}"
+                   th:href="@{/user/list/(pageIndex=${pageIndex+1},pageSize=${pageSize} )}"
+                   aria-label="Next">
+                    <span aria-hidden="true">下一页&raquo;</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/user/list/(pageIndex=${pages.pages},pageSize=${pageSize})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">尾页&raquo;</span>
+                </a>
+            </li>
+
+            <li>
+                <!-- 调整pageSize start -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" th:text=" '每页显示:' + ${pageSize}">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/user/list/(pageIndex=${pageIndex},pageSize=5 )}">5</a>
+                        </li>
+                        <li><a th:href="@{/user/list/(pageIndex=${pageIndex},pageSize=20 )}">10</a>
+                        </li>
+                        <li><a th:href="@{/user/list/(pageIndex=${pageIndex},pageSize=50 )}">50</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/user/list/(pageIndex=${pageIndex},pageSize=100 )}">100</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/user/list/(pageIndex=${pageIndex},pageSize=500 )}">500</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 调整pageSize结束 -->
+            </li>
+        </ul>
+    </div>
+    <!-- 分页部分end -->
 
     <div class="form-group">
         <div class="col-sm-2 control-label">
