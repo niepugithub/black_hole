@@ -22,14 +22,17 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Transactional
     public User selectByPrimaryKey(long id) {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    @Transactional
     public int insert(User user) {
         return userMapper.insert(user);
     }
 
+    @Transactional
     public List<User> queryUsers(User user) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
@@ -54,6 +57,7 @@ public class UserService {
         return users;
     }
 
+    @Transactional
     public int deleteByPrimaryKey(long id){
         return userMapper.deleteByPrimaryKey(id);
     }
