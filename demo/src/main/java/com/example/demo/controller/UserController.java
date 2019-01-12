@@ -14,6 +14,7 @@ import java.util.List;
  * @date:2019/1/10 22:15
  **/
 @RestController
+@RequestMapping("/demo")
 public class UserController {
 
     @Autowired
@@ -32,5 +33,10 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> getUsers(User user) {
         return userService.queryUsers(user);
+    }
+
+    @RequestMapping(value = "/user/{id}",method = RequestMethod.DELETE)
+    public int deleteByPrimaryKey(@PathVariable("id") long id){
+        return userService.deleteByPrimaryKey(id);
     }
 }

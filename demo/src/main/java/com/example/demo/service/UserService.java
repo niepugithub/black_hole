@@ -52,4 +52,9 @@ public class UserService {
         List<User> users = userMapper.selectByExample(example);
         return users;
     }
+
+    public int deleteByPrimaryKey(long id){
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
 }
