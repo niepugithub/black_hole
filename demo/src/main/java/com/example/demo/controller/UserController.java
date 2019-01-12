@@ -28,7 +28,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/user/list")
-    public String getUsers(Model model, @RequestParam(value = "pageIndex",defaultValue = "0") int pageIndex) {
+    public String getUsers(Model model, @RequestParam(value = "pageIndex",defaultValue = "1") int pageIndex) {
         if (pageIndex == 0) {
             pageIndex = 1;
         }
@@ -36,7 +36,8 @@ public class UserController {
         List<User> userList = userService.queryUsers(null);
         model.addAttribute("userList", userList);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
-        model.addAttribute("page", pageInfo.getTotal());
+        model.addAttribute("totalRecords", pageInfo.getTotal());
+        model.addAttribute("totalPages", pageInfo.getPages());
         model.addAttribute("pageIndex", pageIndex);
         return "/user/user_list";
     }
