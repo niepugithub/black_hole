@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.skill.dao.UserMapper">
+    <select id="getUserById" resultType="User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="getAllUsers" resultType="User">
+        select * from user
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert INTO user(username,phone,address,birth) values(#{username},#{phone},#{address},#{birth})
+    </insert>
+
+    <delete id="deleteUserById">
+        DELETE from user where id = #{id}
+    </delete>
+
+    <update id="updateUser">
+        UPDATE user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username!=null">username=#{username},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="address!=null">address=#{address},</if>
+            <if test="birth!=null">birth=#{birth},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+</mapper>
