@@ -1,5 +1,6 @@
 package com.example.skill.domain;
 
+import com.example.skill.common.toString.EasyToString;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.util.Date;
  **/
 @Setter
 @Getter
-public class User {
+public class User extends EasyToString {
     private Long id;
 
     private String username;
@@ -27,14 +28,4 @@ public class User {
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", birth=" + birth +
-                '}';
-    }
 }
