@@ -1,5 +1,6 @@
 package com.example.skill.controller;
 
+import com.example.skill.common.aop.execution.ExecutionTime;
 import com.example.skill.common.aop.param.ParamLog;
 import com.example.skill.common.result.AjaxResult;
 import com.example.skill.common.result.CodeMsg;
@@ -27,6 +28,7 @@ public class UserController {
     private UserService userService;
 
     @ParamLog
+    @ExecutionTime
     @GetMapping("/user/{id}")
     public AjaxResult getUserById(@PathVariable("id") long id) {
         User user = userService.getUserById(id);
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @ParamLog
+    @ExecutionTime
     @GetMapping("/user")
     public AjaxResult getAllUsers(@RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
                                   @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
@@ -45,18 +48,21 @@ public class UserController {
     }
 
     @ParamLog
+    @ExecutionTime
     @PostMapping("/user")
     public AjaxResult insertUser(@RequestBody User user) {
         return userService.insertUser(user) == 1 ? AjaxResult.SUCCESS() : AjaxResult.ERROR(CodeMsg.INSERT_USER_FAIL);
     }
 
     @ParamLog
+    @ExecutionTime
     @DeleteMapping("/user/{id}")
     public AjaxResult deleteUserById(@PathVariable("id") long id) {
         return userService.deleteUserById(id) == 1 ? AjaxResult.SUCCESS() : AjaxResult.ERROR(CodeMsg.DELETE_USER_FAIL);
     }
 
     @ParamLog
+    @ExecutionTime
     @PutMapping("/user")
     public AjaxResult updateUser(@RequestBody User user) {
         return userService.updateUser(user) == 1 ? AjaxResult.SUCCESS() : AjaxResult.ERROR(CodeMsg.UPDATE_USER_FAIL);
